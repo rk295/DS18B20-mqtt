@@ -20,10 +20,19 @@ topic = os.getenv('MQTT_TOPIC')
 username = os.getenv('MQTT_USERNAME', None)
 password = os.getenv('MQTT_PASSWORD', None)
 
+""" Optional one wire device name """
+w1_device = os.getenv('W1_DEVICE', None)
+
 auth = {'username':username, 'password':password }
 
 base_dir = '/sys/bus/w1/devices/'
-device_folder = glob.glob(base_dir + '28*')[0]
+if w1_device:
+    device_folder = base_dir + w1_device
+    logger.debug("Using device from environment: %s" % device_folder)
+else:
+    device_folder = glob.glob(base_dir + '28*')[0]
+    logger.debug("Autodetected device: %s" % device_folder)
+
 device_file = device_folder + '/w1_slave'
 
 
