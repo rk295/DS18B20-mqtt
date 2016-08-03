@@ -18,11 +18,11 @@ topic = os.getenv('MQTT_TOPIC')
 """ Optional username and password for MQTT """
 username = os.getenv('MQTT_USERNAME', None)
 password = os.getenv('MQTT_PASSWORD', None)
+auth = {'username': username, 'password': password}
 
 """ Optional one wire device name """
 w1_device = os.getenv('W1_DEVICE', None)
 
-auth = {'username': username, 'password': password}
 
 base_dir = '/sys/bus/w1/devices/'
 if w1_device:
