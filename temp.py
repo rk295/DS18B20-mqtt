@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import os
-import glob
 import time
 import logging
 import paho.mqtt.publish as publish
@@ -23,13 +22,14 @@ password = os.getenv('MQTT_PASSWORD', None)
 """ Optional one wire device name """
 w1_device = os.getenv('W1_DEVICE', None)
 
-auth = {'username':username, 'password':password }
+auth = {'username': username, 'password': password}
 
 base_dir = '/sys/bus/w1/devices/'
 if w1_device:
     device_folder = base_dir + w1_device
     logger.debug("Using device from environment: %s" % device_folder)
 else:
+    import glob
     device_folder = glob.glob(base_dir + '28*')[0]
     logger.debug("Autodetected device: %s" % device_folder)
 
@@ -50,21 +50,18 @@ def read_temp():
         lines = read_temp_raw()
     equals_pos = lines[1].find('t=')
     if equals_pos != -1:
-        temp_string = lines[1][equals_pos+2:]
+        temp_string = lines[1][equals_pos + 2:]
         temp_c = float(temp_string) / 1000.0
         return temp_c
 
 
 def send_message(topic, payload):
     logger.debug("sending topic=%s payload=%s" % (topic, payload))
-    publish.single(topic, payload=payload, hostname=hostname, auth=auth, retain=True)
+    publish.single(topic, payload=payload,
+                   hostname=hostname, auth=auth, retain=True)
 
 if __name__ == "__main__":
-
 
     while True:
         send_message(topic, read_temp())
         time.sleep(2)
-
-
-
