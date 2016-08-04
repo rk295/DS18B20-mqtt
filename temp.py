@@ -57,8 +57,12 @@ def read_temp():
 
 def send_message(topic, payload):
     logger.debug("sending topic=%s payload=%s" % (topic, payload))
-    publish.single(topic, payload=payload,
-                   hostname=hostname, auth=auth, retain=True)
+    try:
+        publish.single(topic, payload=payload,
+                       hostname=hostname, auth=auth, retain=True)
+    except:
+        logger.error("Failed to publish message, details follow")
+        logger.error("hostname=%s topic=%s payload=%s" % (hostname, topic, payload))
 
 if __name__ == "__main__":
 
