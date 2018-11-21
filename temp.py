@@ -60,9 +60,10 @@ def send_message(topic, payload):
     try:
         publish.single(topic, payload=payload,
                        hostname=hostname, auth=auth, retain=True)
-    except:
+    except Exception as e:
         logger.error("Failed to publish message, details follow")
         logger.error("hostname=%s topic=%s payload=%s" % (hostname, topic, payload))
+        logger.error(e)
 
 if __name__ == "__main__":
 
