@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+export MQTT_HOST="<hostname>"
+export MQTT_TOPIC="<topic>"
+export MQTT_USERNAME="<username>"
+export MQTT_PASSWORD="<password>"
+# I Forget how I get this
+export W1_DEVICE="28-031623bfe0ff"
